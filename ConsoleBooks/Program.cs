@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using Newtonsoft.Json;
@@ -80,26 +81,41 @@ namespace ConsoleBooks
             }
 
             // Display the content.  
-            JObject jsonObject = JObject.Parse(responseFromServer);
-            JArray jsonArray = (JArray)jsonObject["items"];
+            JObject queryObject = JObject.Parse(responseFromServer);
+            JArray queryArray = (JArray)queryObject["items"];
 
             Book[] bookSearch = new Book[5];
             int i = 0;
-            foreach (var obj in jsonArray)
+            foreach (var obj in queryArray)
             {
-                dynamic author = obj["volumeInfo"]["authors"]; // Overloading
-                dynamic publisher;
-                try
-                {
-                    publisher = obj["volumeInfo"]["publisher"];
-                }
-                catch (System.FormatException e)
-                {
-                    publisher = obj["volumeInfo]"]["author"];
-                }
-                dynamic title = obj["volumeInfo"]["title"];
+                // Author
+                String text = Convert.ToString(obj["volumeInfo"]["authors"]);
+                JArray authorObject = JArray.Parse(text); // Overloading
 
-                Book book = new Book(title, author, publisher);
+                // Bug with Publisher (Test search: Bible, or any other book without a "publisher")
+                text = Convert.ToString(obj["volumeInfo"]["publisher"]);
+                JArray publisherObject = JArray.Parse(text); // Overloading
+
+                //String[] publisherArray;
+                //var test = Convert.ToString(obj["volumeInfo"]["publisher"]);
+                //JArray publisherObject = JArray.Parse(test);
+                ////String text = Convert.ToString(obj["volumeInfo"]["publisher"]);
+                //if (publisherObject.Count > 0)
+                //{
+                //    // Authors Exist
+                //    //JArray publisherObject = JArray.Parse(text);
+                //    publisherArray = publisherObject.Select(jv => (String)jv).ToArray();
+                //}
+                //else
+                //{
+                //    // No Authors
+                //    publisherArray = new String[0];
+                //}
+                String title = Convert.ToString(obj["volumeInfo"]["title"]);
+
+                //Book book = new Book(title, authorObject, publisherArray);
+                Book book = new Book(title, authorObject, publisherObject);
+
                 bookSearch[i] = book;
                 ++i;
             }
