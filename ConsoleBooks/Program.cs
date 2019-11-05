@@ -33,6 +33,7 @@ namespace ConsoleBooks
                 action = program.Menu();
             }
         }
+
         private void Initialize()
         {
             Console.WriteLine("Welcome to the Library");
@@ -61,11 +62,13 @@ namespace ConsoleBooks
             Book[] parsedResponse = requests.HandleResponse(response);
             return parsedResponse;
         }
+
         //public static void Each<T>(this IEnumerable<T> ie, Action<T, int> action)
         //{
         //    var i = 0;
         //    foreach (var e in ie) action(e, i++);
         //}
+
         private String InputYesOrNo(String request, String[] permittedResponse)
         {
             String choice = "";
@@ -82,6 +85,7 @@ namespace ConsoleBooks
 
             return choice;
         }
+
         /// <summary>
         /// Parses user input to decide what books to save
         /// </summary>
@@ -92,6 +96,7 @@ namespace ConsoleBooks
         ///   Empty array: poorly formatted input
         ///   Normal array: no issues
         /// </returns>
+
        private List<int> InputIntegerList(String request, List<String> permittedResponse)
         {
             List<String> choice;
@@ -122,6 +127,7 @@ namespace ConsoleBooks
             }
             return books;
         }
+
         private String Menu()
         {
             string[] permittedAnswers = { "s", "search", "v", "view", "q", "quit" };
@@ -194,11 +200,13 @@ namespace ConsoleBooks
 
             return choice;
         }
+
         private void Quit()
         {
             Console.WriteLine("Quitting Application.");
             Environment.Exit(0);
         }
+
         private void View()
         {
 
