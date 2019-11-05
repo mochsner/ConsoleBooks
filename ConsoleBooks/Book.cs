@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -9,16 +10,52 @@ namespace ConsoleBooks
     class Book
     {
         public String title;
-        public JArray author;
-        public JArray publisher;
+        public String[] author;
+        public String[] publisher;
 
-        public Book(string title, JArray author, JArray publisher)
+        public Book(string title, String[] author, String[] publisher)
         {
             this.title = title;
             this.author = author;
             this.publisher = publisher;
-            Console.WriteLine(this.title, this.author, this.publisher);
+
+            //this.PrintBook(); /// TODO Remove this line
         }
+        public void PrintBook()
+        {
+            Console.WriteLine("Title:\t{0}",this.title);
+            this.PluralPrint(this.author, "Author", "Authors");
+            this.PluralPrint(this.publisher, "Publisher", "Publishers");
+
+            //book.author.Select(a => (String)a)).ToArray();
+        }
+        public void PrintBook(int number)
+        {
+            Console.WriteLine("Result #{0}", number);
+            Console.WriteLine("Title:\t{0}",this.title);
+            this.PluralPrint(this.author, "Author", "Authors");
+            this.PluralPrint(this.publisher, "Publisher", "Publishers");
+
+            //book.author.Select(a => (String)a)).ToArray();
+        }
+
+        public void PluralPrint(String[] array, String singular, String plural)
+        {
+            if (array.Length <= 0)
+            {
+                Console.WriteLine(singular,"\t: N/A");
+            }
+            else if (array.Length <= 1)
+            {
+                Console.WriteLine("{0}:\t{1}",singular, array[0]);
+            }
+            else
+            {
+                Console.WriteLine(plural,":\r\n");
+                Array.ForEach(array, i => Console.WriteLine("{0}",i));
+            }
+        }
+
        // public Book(string title, string author, string[] publisher)
        // {
        //     this.title = title;
