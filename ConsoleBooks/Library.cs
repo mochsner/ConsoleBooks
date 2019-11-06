@@ -6,6 +6,6 @@ namespace ConsoleBooks
 {
     class Library
     {
-
+        
     }
 }

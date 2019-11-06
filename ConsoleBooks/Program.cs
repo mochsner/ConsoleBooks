@@ -37,7 +37,10 @@ namespace ConsoleBooks
 
         private void Initialize()
         {
-            Console.WriteLine("Welcome to the Library");
+            Console.WriteLine(" ________________________");
+            Console.WriteLine("|                        |");
+            Console.WriteLine("| Welcome to the Library |");
+            Console.WriteLine("|________________________|");
         }
 
         private Book[] SearchLibrary()
@@ -134,8 +137,11 @@ namespace ConsoleBooks
             // Loop Menu until valid workflow
             do
             {
-                Console.WriteLine("\r\n" +
-                    "Would you like to:\r\n" +
+                Console.WriteLine(
+                    " _________________\r\n" +
+                    "|                 |\r\n" +
+                    "|    MAIN MENU    |\r\n" +
+                    "|_________________|\r\n" +
                     "[s]earch:  Search the library\r\n" +
                     "[v]iew:    View your reading list\r\n" +
                     "[q]uit:    Quit");
@@ -178,7 +184,11 @@ namespace ConsoleBooks
                 }
                 else if (choice == "v" || choice == "view")
                 {
-                    // Output the reading list
+                    Console.WriteLine(
+                        " ____________________\r\n" +
+                        "|                    |\r\n" +
+                        "|    READING LIST    |\r\n" +
+                        "|____________________|\r\n");
                     readingList.ForEach(book => book.PrintBook());
                 }
                 else if (choice == "q" || choice == "quit")

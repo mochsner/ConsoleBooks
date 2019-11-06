@@ -23,18 +23,18 @@ namespace ConsoleBooks
         }
         public void PrintBook()
         {
-            Console.WriteLine("\tTitle:\t{0}",this.title);
-            this.PluralPrint(this.author, "\t\tAuthor", "Authors");
-            Console.WriteLine("\t\tPublisher:\t{0}",this.publisher);
+            Console.WriteLine("  Title:  {0}",this.title);  /// TODO : Box Books in Text (read up on DOTNET output streams)
+            this.PluralPrint(this.author, "    Author", "Authors");
+            Console.WriteLine("    Publisher:  {0}",this.publisher);
 
             //book.author.Select(a => (String)a)).ToArray();
         }
         public void PrintBook(int number)
         {
-            Console.WriteLine("\tBook Number: {0}", number);
-            Console.WriteLine("\t\tTitle:\t{0}",this.title);
-            this.PluralPrint(this.author, "\t\tAuthor", "\t\tAuthors");
-            Console.WriteLine("\t\tPublisher:\t{0}",this.publisher);
+            Console.WriteLine("  Book Number: {0}", number);
+            Console.WriteLine("    Title:  {0}",this.title);
+            this.PluralPrint(this.author, "    Author", "    Authors");
+            Console.WriteLine("    Publisher:  {0}",this.publisher);
 
             //book.author.Select(a => (String)a)).ToArray();
         }
@@ -43,11 +43,11 @@ namespace ConsoleBooks
         {
             if (array.Length <= 0)
             {
-                Console.WriteLine(singular,"\t: N/A");
+                Console.WriteLine(singular,"  : N/A");
             }
             else if (array.Length <= 1)
             {
-                Console.WriteLine("{0}:\t{1}",singular, array[0]);
+                Console.WriteLine("{0}:  {1}",singular, array[0]);
             }
             else
             {
