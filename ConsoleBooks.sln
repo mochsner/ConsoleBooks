@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBooks", "ConsoleBooks\ConsoleBooks.csproj", "{2203DDCF-71F3-4BC9-B040-97A252A22C93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleBooks", "ConsoleBooks\ConsoleBooks.csproj", "{2203DDCF-71F3-4BC9-B040-97A252A22C93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xUnitTests", "xUnitTests", "{2CFDE74A-D98F-4192-AB8E-2096C48FC3BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
