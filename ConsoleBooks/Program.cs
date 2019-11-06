@@ -17,6 +17,7 @@ namespace ConsoleBooks
         Requests requests = new Requests(); // Too Hacky - Update this to use a Class Library if time allows
         public static String[] expressionsForYes = new string[] { "yes", "y" };
         public static String[] expressionsForNo  = new string[] { "no", "n" };
+        public List<Book> readingList = new List<Book>();
 
         /// <summary>
         /// Entering the Program starts here. This is the main class.
@@ -86,48 +87,43 @@ namespace ConsoleBooks
         /// <param name="request"></param>
         /// <param name="permittedResponse"></param>
         /// <returns>
-        ///   Null array: user decided to quit a bit late
-        ///   Empty array: poorly formatted input
-        ///   Normal array: no issues
+        ///   -1: user decided to quit a bit late
+        ///   0: poorly formatted input
+        ///   N: no issues
         /// </returns>
 
-       private List<int> InputIntegerList(String request, List<String> permittedResponse)
+       private int InputIntegerList(String request, List<String> permittedResponse)
         {
-            List<String> choice;
             Console.WriteLine(request);
-            choice = Console.ReadLine().Split(',').ToList();
+            String choice = Console.ReadLine();
 
-            List<int> books = new List<int>();
             // Q means quit, numbers mean save. Ignore others
-            foreach (var i in choice)
+            var c = choice.Trim();
+            if (c == "q" || c == "Q")
             {
-                var c = i.Trim();
-                if (c == "q" || c == "Q")
-                {
-                    // Return - User Quit
-                    Console.WriteLine("You have decided not to edit anything, instead choosing to [Q]uit.");
-                    return null;
-                }
-                else if (int.TryParse(c, out int n))
-                {
-                    // Add Number
-                    if (permittedResponse.Contains(c))
-                    {
-                        Console.WriteLine("{0} exists as valid input!", c); /// TODO remove
-                        books.Add(int.Parse(c)); 
-                    }
-                    else
-                    {
-                        Console.WriteLine("{0} is an invalid integer. Skipping.",c); /// TODO Optimize User experience?
-                    }
-                } else
-                {
-                    // Return - User Error
-                    Console.WriteLine("Invalid character: {0}. Please re-submit without this most recent character.",c);
-                    return books = new List<int>();
-                }
+                // Return - User Quit
+                Console.WriteLine("You have decided not to edit anything, instead choosing to [Q]uit.");
+                return -1;
             }
-            return books;
+            else if (int.TryParse(c, out int n))
+            {
+                // Add Number
+                if (permittedResponse.Contains(c))
+                {
+                    Console.WriteLine("{0} exists as valid input!", c); /// TODO remove
+                    return int.Parse(c);
+                }
+                else
+                {
+                    Console.WriteLine("{0} is an invalid integer.",c); /// TODO Optimize User experience?
+                    return 0;
+                }
+            } else
+            {
+                // Return - User Error
+                Console.WriteLine("Invalid character: {0}. Please re-submit with valid input.",c);
+                return 0;
+            }
         }
 
         private String Menu()
@@ -165,27 +161,25 @@ namespace ConsoleBooks
                     if (expressionsForYes.Contains(confirm.ToLower()))
                     {
                         // Ask which books to add to "Reading List"
-                        Console.WriteLine("Please enter the Book numbers you would like to add, comma separated.\r\n");
-                        List<int> newReadingList = InputIntegerList("Please enter the Book numbers you would like to add, comma separated.",
+                        int bookNumber = InputIntegerList("Please enter the number of the book you would like to add (1-5), or type 'r' to return to the main menu.",
                             new List<String> { "1", "2", "3", "4", "5" });
 
                         // Output what user added to reading list
-                        Console.WriteLine("Books being added to reading list:"); 
-                        foreach (int bookNumber in newReadingList)
-                        {
-                            bookQuery[bookNumber].PrintBook(bookNumber);
-                        }
+                        Console.WriteLine("Book being added to reading list:"); 
+                        bookQuery[bookNumber-1].PrintBook(bookNumber);
+                        readingList.Add(bookQuery[bookNumber-1]);
                     }
-                    else if (expressionsForNo.Contains(confirm.ToLower()))
+                    else //no "ELSE IF" needed; InputYesOrNo catches any other responses 
                     {
-                        Console.WriteLine("Redirecting back to the main menu.");
-                        continue;
+                        Console.WriteLine("No book was selected to add to the reading list.");
                     }
-
-
+                    Console.WriteLine("Redirecting back to the main menu.");
+                    continue;
                 }
                 else if (choice == "v" || choice == "view")
                 {
+                    // Output the reading list
+                    readingList.ForEach(book => book.PrintBook());
                 }
                 else if (choice == "q" || choice == "quit")
                 {
