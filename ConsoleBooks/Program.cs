@@ -108,14 +108,22 @@ namespace ConsoleBooks
                     Console.WriteLine("You have decided not to edit anything, instead choosing to [Q]uit.");
                     return null;
                 }
-                else if (!int.TryParse(c, out int n))
+                else if (int.TryParse(c, out int n))
                 {
                     // Add Number
-                    books.Add(int.Parse(c)); 
+                    if (permittedResponse.Contains(c))
+                    {
+                        Console.WriteLine("{0} exists as valid input!", c); /// TODO remove
+                        books.Add(int.Parse(c)); 
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} is an invalid integer. Skipping.",c); /// TODO Optimize User experience?
+                    }
                 } else
                 {
                     // Return - User Error
-                    Console.WriteLine("Invalid input given via character '{0}. Please re-submit your most recent entry (click up arrow + edit)?");
+                    Console.WriteLine("Invalid character: {0}. Please re-submit without this most recent character.",c);
                     return books = new List<int>();
                 }
             }
