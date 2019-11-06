@@ -11,9 +11,9 @@ namespace ConsoleBooks
     {
         public String title;
         public String[] author;
-        public String[] publisher;
+        public String publisher;
 
-        public Book(string title, String[] author, String[] publisher)
+        public Book(string title, String[] author, String publisher)
         {
             this.title = title;
             this.author = author;
@@ -23,18 +23,18 @@ namespace ConsoleBooks
         }
         public void PrintBook()
         {
-            Console.WriteLine("Title:\t{0}",this.title);
-            this.PluralPrint(this.author, "Author", "Authors");
-            this.PluralPrint(this.publisher, "Publisher", "Publishers");
+            Console.WriteLine("\tTitle:\t{0}",this.title);
+            this.PluralPrint(this.author, "\t\tAuthor", "Authors");
+            Console.WriteLine("\t\tPublisher:\t{0}",this.publisher);
 
             //book.author.Select(a => (String)a)).ToArray();
         }
         public void PrintBook(int number)
         {
-            Console.WriteLine("Result #{0}", number);
-            Console.WriteLine("Title:\t{0}",this.title);
-            this.PluralPrint(this.author, "Author", "Authors");
-            this.PluralPrint(this.publisher, "Publisher", "Publishers");
+            Console.WriteLine("\tBook Number: {0}", number);
+            Console.WriteLine("\t\tTitle:\t{0}",this.title);
+            this.PluralPrint(this.author, "\t\tAuthor", "\t\tAuthors");
+            Console.WriteLine("\t\tPublisher:\t{0}",this.publisher);
 
             //book.author.Select(a => (String)a)).ToArray();
         }

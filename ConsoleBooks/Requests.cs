@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace ConsoleBooks
         public WebResponse InvokeRequest(String query)
         {
             String baseURI = "https://www.googleapis.com/books/v1/";
-            String method = "volumes?maxResults=1&q=";
+            String method = "volumes?maxResults=5&q=";
             WebRequest request = WebRequest.Create(baseURI + method + query);
             WebResponse response = request.GetResponse();
             Console.WriteLine(((HttpWebResponse)response).StatusCode);
@@ -44,34 +45,29 @@ namespace ConsoleBooks
             JObject queryObject = JObject.Parse(responseFromServer);
             JArray queryArray = (JArray)queryObject["items"];
 
-            Book[] bookSearch = new Book[5];
+            Book[] bookSearch = new Book[queryArray.Count];
+
             int i = 0;
-            foreach (var obj in queryArray)
+            foreach (JObject jBookObj in queryArray)
             {
                 // Title
-                String title = Convert.ToString(obj["volumeInfo"]["title"]);
+                String title = Convert.ToString(jBookObj["volumeInfo"]["title"]);
 
                 // Author
-                String text = Convert.ToString(obj["volumeInfo"]["authors"]);
+                String text = Convert.ToString(jBookObj["volumeInfo"]["authors"]);
                 JArray authorObject = JArray.Parse(text); // Overloading
                 String[] authorArray = ConvertFromJArray(authorObject);
 
                 // Publisher
-                JArray publisherObject;
-                JToken token = obj["volumeInfo"]["publisher"];
+                String publisher = "";
+                JToken token = jBookObj["volumeInfo"]["publisher"];
                 if (token != null)
                 {
-                    text = Convert.ToString(obj["volumeInfo"]["publisher"]);
-                    publisherObject = JArray.Parse(text); // Overloading
+                    publisher = Convert.ToString(jBookObj["volumeInfo"]["publisher"]);
                 }
-                else
-                {
-                    publisherObject = JArray.Parse("[]");
-                }
-                String[] publisherArray = ConvertFromJArray(publisherObject);
                 
                 //Book book = new Book(title, authorObject, publisherArray);
-                Book book = new Book(title, authorArray, publisherArray);
+                Book book = new Book(title, authorArray, publisher);
 
                 bookSearch[i] = book;
                 ++i;
