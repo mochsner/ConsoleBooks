@@ -151,11 +151,11 @@ namespace ConsoleBooks
                     Book[] bookQuery = SearchLibrary();
 
                     // Print Books with a Number
-                    int i = 0;
+                    int index = 0;
                     foreach (Book book in bookQuery)
                     {
-                        book.PrintBook(i+1);
-                        i++;
+                        book.PrintBook(index+1);
+                        index++;
                     }
 
                     // Ask if any books are interesting
@@ -171,12 +171,10 @@ namespace ConsoleBooks
 
                         // Output what user added to reading list
                         Console.WriteLine("Books being added to reading list:"); 
-                        foreach (int queryNumber in newReadingList)
+                        foreach (int bookNumber in newReadingList)
                         {
-                            bookQuery[queryNumber-1].PrintBook(queryNumber-1);
+                            bookQuery[bookNumber].PrintBook(bookNumber);
                         }
-                        
-
                     }
                     else if (expressionsForNo.Contains(confirm.ToLower()))
                     {
