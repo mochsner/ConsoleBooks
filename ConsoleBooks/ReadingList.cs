@@ -18,12 +18,17 @@ namespace ConsoleBooks
         {
             Book book = new Book(title,author,publisher);
             readingList = new List<Book>();
+            readingList.Add(book);
         }
-        public Boolean AddBook (String title, String[] author, String publisher)
+        public void AddBook (String title, String[] author, String publisher)
         {
             Book book = new Book(title,author,publisher);
             readingList.Add(book);
-            return true;
+        }
+
+        public List<Book> GetReadingList()
+        {
+            return readingList;
         }
     }
 }
