@@ -34,6 +34,8 @@ namespace ConsoleBooks
                 Assert.Equal(d.Expected.title, d.Actual.title);
                 Assert.Equal(d.Expected.author, d.Actual.author);
                 Assert.Equal(d.Expected.publisher, d.Actual.publisher);
+                
+                Assert.Equal(expected.RemoveBook(d.Expected), actual.RemoveBook(d.Actual));
             }
         }
 
