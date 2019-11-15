@@ -52,7 +52,7 @@ namespace ConsoleBooks
 
             //book.author.Select(a => (String)a)).ToauthorArray();
         }
-        public void PrintBook(int number)
+        public void PrintBookWithIndex(int number)
         {
             Console.WriteLine("  Book Number: {0}", number);
             Console.WriteLine("    Title:  {0}", this.title);

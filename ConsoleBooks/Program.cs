@@ -14,19 +14,16 @@ namespace ConsoleBooks
 
     class Program
     {
-        Requests requests = new Requests(); // Too Hacky - Update this to use a Class Library if time allows
         public static String[] expressionsForYes = new string[] { "yes", "y" };
         public static String[] expressionsForNo  = new string[] { "no", "n" };
-        public List<Book> readingList = new List<Book>();
 
-        /// <summary>
-        /// Entering the Program starts here. This is the main class.
-        /// </summary>
-        /// <param name="args"></param>
+        WebRequestHandler requests = new WebRequestHandler(); 
+        ReadingList readingList = new ReadingList();
+
         static void Main(string[] args)
         {
             Program program = new Program();
-            program.Initialize();
+            program.EnterLibrary();
             
             String action = "";
             while (action != "q" && action != "quit")
@@ -35,7 +32,7 @@ namespace ConsoleBooks
             }
         }
 
-        private void Initialize()
+        private void EnterLibrary()
         {
             Console.WriteLine(" ________________________");
             Console.WriteLine("|                        |");
@@ -43,27 +40,26 @@ namespace ConsoleBooks
             Console.WriteLine("|________________________|");
         }
 
-        private Book[] SearchLibrary()
+        private List<Book> SearchLibrary()
         {
             String query;
 
-            // Loop until valid input is given
             do
             {
+                // Get Valid Response
                 Console.WriteLine("Please search for a book you're interested in.");
                 query = Console.ReadLine();
 
                 if (query == "")
                 {
                     Console.WriteLine("A valid search must contain at least one character. Please try again.");
-                    //TODO Unit test on other potentially invalid searches
                 }
 
             } while (query.Length <= 0);
 
             // Search
             WebResponse response = requests.InvokeRequest(query);
-            Book[] parsedResponse = requests.HandleResponse(response);
+            List<Book> parsedResponse = requests.HandleResponse(response);
             return parsedResponse;
         }
 
@@ -150,14 +146,11 @@ namespace ConsoleBooks
 
                 if (choice == "s" || choice == "search")
                 {
-                    Book[] bookQuery = SearchLibrary();
+                    List<Book> bookQuery = SearchLibrary();
 
-                    // Print Books with a Number
-                    int index = 0;
-                    foreach (Book book in bookQuery)
-                    {
-                        book.PrintBook(index+1);
-                        index++;
+                    int index = 1;
+                    foreach (Book book in bookQuery) { 
+                        book.PrintBookWithIndex(index); ++index;
                     }
 
                     // Ask if any books are interesting
@@ -172,8 +165,8 @@ namespace ConsoleBooks
 
                         // Output what user added to reading list
                         Console.WriteLine("Book being added to reading list:"); 
-                        bookQuery[bookNumber-1].PrintBook(bookNumber);
-                        readingList.Add(bookQuery[bookNumber-1]);
+                        bookQuery[bookNumber - 1].PrintBookWithIndex(bookNumber);
+                        readingList.AddBook(bookQuery[bookNumber - 1]);
                     }
                     else //no "ELSE IF" needed; InputYesOrNo catches any other responses 
                     {
@@ -189,7 +182,7 @@ namespace ConsoleBooks
                         "|                    |\r\n" +
                         "|    READING LIST    |\r\n" +
                         "|____________________|\r\n");
-                    readingList.ForEach(book => book.PrintBook());
+                    readingList.Print();
                 }
                 else if (choice == "q" || choice == "quit")
                 {

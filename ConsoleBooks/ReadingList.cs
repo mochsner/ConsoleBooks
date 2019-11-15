@@ -42,17 +42,36 @@ namespace ConsoleBooks
             db.readingList.Add(book);
             db.SaveChanges();
         }
-
+        public void RemoveBook (int id, String title, List<String> author, String publisher)
+        {
+            Book book = new Book(title,author,publisher);
+            db.readingList.Remove(book);
+            db.SaveChanges();
+        }
+        public Book RemoveBook(Book book)
+        {
+            try{
+                db.readingList.Remove(book);
+                db.SaveChanges();
+                return book;
+            } catch (Exception e) {
+                return null;
+                throw new Exception (e.Message);
+            }
+        }
+        public void Print()
+        {
+            var list = this.GetReadingList();
+            list.ForEach(book => book.PrintBook());
+        }
         public List<Book> GetReadingList()
         {
             var _readingList = db.readingList.ToList();
-            // _readingList = _readingList.All(x => x.author = (x.author.Split("^"))); /// TODO: Remove or Revert Book.cs to use List/Array
             return _readingList;
         }
 
         public DbSet<Book> GetReadingDbSet()
         {
-            //var aReadingList = db.readingList.(x => x.id != null);
 
             return db.readingList;
         }
