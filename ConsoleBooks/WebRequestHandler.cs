@@ -19,10 +19,19 @@ namespace ConsoleBooks
             String baseURI = "https://www.googleapis.com/books/v1/";
             String method = "volumes?maxResults=5&q=";
             WebRequest request = WebRequest.Create(baseURI + method + query);
-            WebResponse response = request.GetResponse();
-            Console.WriteLine(((HttpWebResponse)response).StatusCode);
 
-            return response;
+            WebResponse response;
+            try{
+                response = request.GetResponse();
+            } catch (WebException e) {
+                response = null;
+            }
+
+            if (((HttpWebResponse)response).StatusCode==HttpStatusCode.OK){
+                return response;
+            } else {
+                return null;
+            }
         }
         public List<Book> HandleResponse(WebResponse response)
         {

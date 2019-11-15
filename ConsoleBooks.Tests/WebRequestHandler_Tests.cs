@@ -45,16 +45,8 @@ namespace ConsoleBooks
         {
           WebRequestHandler requests = new WebRequestHandler();
 
-          try{
-            WebResponse response = requests.InvokeRequest(search);
-          } catch (WebException e)
-          {
-            Assert.True(true);
-            return;
-          }
-
-          Assert.True(false);
-          return;
+          WebResponse response = requests.InvokeRequest(search);
+          Assert.Null(response);
         }
     }
 }
