@@ -12,10 +12,7 @@ namespace ConsoleBooks
 {
     public class ReadingList_Tests
     {
-        // [Fact]
-        // public void FirstFact()
-        // {
-        // }
+        static void Main() {}
 
         [Theory(DisplayName = "Constructor + Add Book Equality Check")]
         [InlineData("The Power of Habit", new []{"Charles Duhigg"}, "Random House")]
