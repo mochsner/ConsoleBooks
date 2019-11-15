@@ -67,7 +67,7 @@ namespace ConsoleBooks
                     publisher = Convert.ToString(jBookObj["volumeInfo"]["publisher"]);
                 }
                 
-                Book book = new Book(title, authorArray.ToList(), publisher);
+                Book book = new Book(title, authorArray, publisher);
 
                 bookSearch.Add(book);
             }
@@ -75,9 +75,10 @@ namespace ConsoleBooks
         }
         public List<String> ConvertFromJArray(JArray jArray)
         {
-            List<String> array;
-            array = jArray.Select(i => (String)i).ToList();
-            return array;
+            List<String> list;
+            list = jArray.Select(i => (String)i).ToArray().ToList();
+            list.ToList();
+            return list;
         }
 
     }

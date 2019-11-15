@@ -100,27 +100,31 @@ namespace ConsoleBooks
             var c = choice.Trim();
             if (c == "q" || c == "Q")
             {
-                // Return - User Quit
-                Console.WriteLine("You have decided not to edit anything, instead choosing to [Q]uit.");
+                Console.WriteLine("Quitting / Leaving the Library!");
                 return -1;
+            }
+            else if (c == "r" || c == "R")
+            {
+                Console.WriteLine("Returning to the main menu!");
+                return -2;
             }
             else if (int.TryParse(c, out int n))
             {
                 // Add Number
-                if (permittedResponse.Contains(c))
-                {
+                if (permittedResponse.Contains(c)) {
                     Console.WriteLine("{0} exists as valid input!", c); /// TODO remove
                     return int.Parse(c);
                 }
-                else
-                {
-                    Console.WriteLine("{0} is an invalid integer.",c); /// TODO Optimize User experience?
+                else {
+                    Console.Write("{0} is an invalid integer. Please pick a number within the specified range! [", c);
+                    permittedResponse.ForEach(i => Console.Write(i + " "));
+                    Console.WriteLine("");
                     return 0;
                 }
             } else
             {
                 // Return - User Error
-                Console.WriteLine("Invalid character: {0}. Please re-submit with valid input.",c);
+                Console.WriteLine("Invalid character: {0}. Please re-submit with valid input.", c);
                 return 0;
             }
         }
@@ -130,7 +134,6 @@ namespace ConsoleBooks
             string[] permittedAnswers = { "s", "search", "v", "view", "q", "quit" };
             string choice = "";
 
-            // Loop Menu until valid workflow
             do
             {
                 Console.WriteLine(
@@ -153,22 +156,26 @@ namespace ConsoleBooks
                         book.PrintBookWithIndex(index); ++index;
                     }
 
-                    // Ask if any books are interesting
                     String confirm = InputYesOrNo("Would you like to add any books to your reading List?\r\n" +
                         "Answer [Y]es, or [N]o.", new string[] { "yes", "y", "no", "n" });
 
                     if (expressionsForYes.Contains(confirm.ToLower()))
                     {
-                        // Ask which books to add to "Reading List"
-                        int bookNumber = InputIntegerList("Please enter the number of the book you would like to add (1-5), or type 'r' to return to the main menu.",
+                        int bookNumber = InputIntegerList("Please enter the number of the book you would like to add (1-5), type 'r' to return to the main menu, or 'q' to leave the library.",
                             new List<String> { "1", "2", "3", "4", "5" });
 
-                        // Output what user added to reading list
-                        Console.WriteLine("Book being added to reading list:"); 
+                        if (bookNumber == -1) {
+                            this.Quit();
+                        }
+                        else if (bookNumber == -2) {
+                            continue; // Return to menu
+                        }
+
+                        Console.WriteLine("Book being added to reading list: "); 
                         bookQuery[bookNumber - 1].PrintBookWithIndex(bookNumber);
                         readingList.AddBook(bookQuery[bookNumber - 1]);
                     }
-                    else //no "ELSE IF" needed; InputYesOrNo catches any other responses 
+                    else
                     {
                         Console.WriteLine("No book was selected to add to the reading list.");
                     }
@@ -204,9 +211,5 @@ namespace ConsoleBooks
             Environment.Exit(0);
         }
 
-        private void View()
-        {
-
-        }
     }
 }

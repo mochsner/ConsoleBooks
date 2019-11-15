@@ -26,7 +26,7 @@ namespace ConsoleBooks
         public Book(string title, List<String> author, String publisher)
         {
             this.title = title;
-            this.author = String.Join("^", author.ToArray());
+            this.author = String.Join(",", author.ToArray());
             this.publisher = publisher;
 
             //this.PrintBook(); /// TODO Remove this line
@@ -38,7 +38,7 @@ namespace ConsoleBooks
         }
         public void addAuthor(List<String> author)
         {
-            this.author = String.Join("^", author.ToArray());
+            this.author = String.Join(",", author.ToArray());
         }
         public void addPublisher(String publisher)
         {
@@ -46,8 +46,9 @@ namespace ConsoleBooks
         }
         public void PrintBook()
         {
+            
             Console.WriteLine("  Title:  {0}", this.title);  /// TODO : Box Books in Text (read up on DOTNET output streams)
-            this.PluralPrint(this.author, "    Author", "Authors");
+            Console.WriteLine(this.author, "    Author", "Authors");
             Console.WriteLine("    Publisher:  {0}", this.publisher);
 
             //book.author.Select(a => (String)a)).ToauthorArray();
@@ -64,14 +65,14 @@ namespace ConsoleBooks
 
         public void PluralPrint(String authorDelimited, String singular, String plural)
         {
-            List<String> authorList = authorDelimited.Split('^').ToList();
+            List<String> authorList = authorDelimited.Split(",").ToList();
             if (authorList.Count <= 0)
             {
                 Console.WriteLine(singular,"  : N/A");
             }
             else if (authorList.Count <= 1)
             {
-                Console.WriteLine("{0}:  {1}",singular, author[0]);
+                Console.WriteLine("{0}:  {1}",singular, authorDelimited);
             }
             else
             {
