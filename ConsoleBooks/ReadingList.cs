@@ -41,9 +41,9 @@ namespace ConsoleBooks
             db.readingList.Add(book);
             db.SaveChanges();
         }
-        public void RemoveBook (int id, String title, List<String> author, String publisher)
+        public void RemoveBook (String title, List<String> author, String publisher)
         {
-            Book book = new Book(title,author,publisher);
+            Book book = new Book(title, author, publisher);
             db.readingList.Remove(book);
             db.SaveChanges();
         }
