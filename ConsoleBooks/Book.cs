@@ -9,14 +9,21 @@ namespace ConsoleBooks
 {
     public class Book
     {
-        public String title;
-        public String[] author;
-        public String publisher;
+        public Guid Id { get; private set; }
+        public String title { get; set; }
+        public String author { get; set; }
+        public String publisher { get; set; }
 
+        public Book()
+        {
+            this.title = "";
+            this.author = "";
+            this.publisher = "";
+        }
         public Book(string title, String[] author, String publisher)
         {
             this.title = title;
-            this.author = author;
+            this.author = author.ToString();
             this.publisher = publisher;
 
             //this.PrintBook(); /// TODO Remove this line
@@ -27,7 +34,7 @@ namespace ConsoleBooks
             this.PluralPrint(this.author, "    Author", "Authors");
             Console.WriteLine("    Publisher:  {0}",this.publisher);
 
-            //book.author.Select(a => (String)a)).ToArray();
+            //book.author.Select(a => (String)a)).ToauthorArray();
         }
         public void PrintBook(int number)
         {
@@ -36,23 +43,25 @@ namespace ConsoleBooks
             this.PluralPrint(this.author, "    Author", "    Authors");
             Console.WriteLine("    Publisher:  {0}",this.publisher);
 
-            //book.author.Select(a => (String)a)).ToArray();
+            //book.author.Select(a => (String)a)).ToauthorArray();
         }
 
-        public void PluralPrint(String[] array, String singular, String plural)
+        public void PluralPrint(String authorDelimited, String singular, String plural)
         {
-            if (array.Length <= 0)
+            String[] authorArray = authorDelimited.Split("^");
+
+            if (authorArray.Length <= 0)
             {
                 Console.WriteLine(singular,"  : N/A");
             }
-            else if (array.Length <= 1)
+            else if (authorArray.Length <= 1)
             {
-                Console.WriteLine("{0}:  {1}",singular, array[0]);
+                Console.WriteLine("{0}:  {1}",singular, authorArray[0]);
             }
             else
             {
                 Console.WriteLine(plural,":\r\n");
-                Array.ForEach(array, i => Console.WriteLine("{0}",i));
+                Array.ForEach(authorArray, i => Console.WriteLine("{0}",i));
             }
         }
 
