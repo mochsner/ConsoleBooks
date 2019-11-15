@@ -60,7 +60,8 @@ namespace ConsoleBooks
                 Assert.Equal(d.Expected.publisher, d.Actual.publisher);
             }
             // Cleanup DB
-            expected.RemoveBook(title, author.ToList(), publisher);
+            // expected.RemoveBook(title,author.ToList(), publisher);  <== This SHOULD work (TODO)
+            expected.RemoveBook(new Book(title, author.ToList(), publisher));
         }
     }
 }
