@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using LINQtoCSV;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
@@ -11,39 +12,49 @@ namespace ConsoleBooks
     // [Serializable()]
     public class BookContext : DbContext
     {
-        public DbSet<Book> readingList { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite("Data Source=ReadingList.db");
-
+        //public DbSet<ReadingList> readingLists { get; set; }
+        public DbSet<Book> readingList {get; set;}
+        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source=C:\\Users\\Owner\\Source\\Repos\\ConsoleBooks\\ConsoleBooks\\ReadingList.db");
     }
+
     public class ReadingList
     {
-        public List<Book> readingList;
-        BookContext db;
+        public int id {get; set;}
+        BookContext db = new BookContext();
 
         public ReadingList ()
         {
-            readingList = new List<Book>();
-            db = new BookContext();
         }
-        public ReadingList (String title, String[] author, String publisher)
+        public ReadingList (String title, List<String> author, String publisher)
         {
             Book book = new Book(title,author,publisher);
-            readingList = new List<Book>();
-            readingList.Add(book);
-            db.Add(book);
-            db.SaveChangesAsync();
+            db.readingList.Add(book);
+            db.SaveChanges();
         }
-        public void AddBook (String title, String[] author, String publisher)
+        public void AddBook (String title, List<String> author, String publisher)
         {
             Book book = new Book(title,author,publisher);
-            readingList.Add(book);
-            db.Add(book);
-            db.SaveChangesAsync();
+            db.readingList.Add(book);
+            db.SaveChanges();
+        }
+        public void AddBook (Book book)
+        {
+            db.readingList.Add(book);
+            db.SaveChanges();
         }
 
         public List<Book> GetReadingList()
         {
-            return readingList;
+            var _readingList = db.readingList.ToList();
+            // _readingList = _readingList.All(x => x.author = (x.author.Split("^"))); /// TODO: Remove or Revert Book.cs to use List/Array
+            return _readingList;
+        }
+
+        public DbSet<Book> GetReadingDbSet()
+        {
+            //var aReadingList = db.readingList.(x => x.id != null);
+
+            return db.readingList;
         }
     }
 }

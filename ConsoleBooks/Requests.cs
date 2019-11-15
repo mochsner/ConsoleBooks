@@ -67,7 +67,7 @@ namespace ConsoleBooks
                 }
                 
                 //Book book = new Book(title, authorObject, publisherArray);
-                Book book = new Book(title, authorArray, publisher);
+                Book book = new Book(title, authorArray.ToList(), publisher);
 
                 bookSearch[i] = book;
                 ++i;
