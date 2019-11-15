@@ -38,6 +38,8 @@ namespace ConsoleBooks
                 // Assert.Equal(expected.RemoveBook(d.Expected), d.Actual);
                 // Assert.Equal(expected.RemoveBook(d.Expected), null);
             }
+            // Cleanup DB
+            expected.RemoveBook(d.Expected);
         }
 
         [Theory(DisplayName = "\r\n\r\nBook.CS - AddBook/DB Validation\r\n")]
@@ -59,6 +61,8 @@ namespace ConsoleBooks
                 Assert.Equal(d.Expected.author, d.Actual.author);
                 Assert.Equal(d.Expected.publisher, d.Actual.publisher);
             }
+            // Cleanup DB
+            expected.RemoveBook(d.Expected);
         }
 
 
