@@ -9,6 +9,13 @@ __Console Books, A CLI-based Reading List__
 * Clone this repository: `git clone https://github.com/mochsner/ConsoleBooks`
 * Navigate into the ConsoleBooks directory on an administrative shell (i.e. bash or powershell) ` cd ./ConsoleBooks`
 * Run the .exe generation command `dotnet publish -c Debug -r win10-x64`
+* Create the Database
+```powershell
+dotnet tool install --global dotnet-ef
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+```
 * Navigate further down to find the ConsoleTest.exe, running it:\
 ```cd .\ConsoleBooks\bin\Debug\netcoreappX.Y\win-10-x64```
 

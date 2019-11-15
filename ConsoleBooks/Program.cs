@@ -14,19 +14,16 @@ namespace ConsoleBooks
 
     class Program
     {
-        Requests requests = new Requests(); // Too Hacky - Update this to use a Class Library if time allows
         public static String[] expressionsForYes = new string[] { "yes", "y" };
         public static String[] expressionsForNo  = new string[] { "no", "n" };
-        public List<Book> readingList = new List<Book>();
 
-        /// <summary>
-        /// Entering the Program starts here. This is the main class.
-        /// </summary>
-        /// <param name="args"></param>
+        WebRequestHandler requests = new WebRequestHandler(); 
+        ReadingList readingList = new ReadingList();
+
         static void Main(string[] args)
         {
             Program program = new Program();
-            program.Initialize();
+            program.EnterLibrary();
             
             String action = "";
             while (action != "q" && action != "quit")
@@ -35,7 +32,7 @@ namespace ConsoleBooks
             }
         }
 
-        private void Initialize()
+        private void EnterLibrary()
         {
             Console.WriteLine(" ________________________");
             Console.WriteLine("|                        |");
@@ -43,27 +40,26 @@ namespace ConsoleBooks
             Console.WriteLine("|________________________|");
         }
 
-        private Book[] SearchLibrary()
+        private List<Book> SearchLibrary()
         {
             String query;
 
-            // Loop until valid input is given
             do
             {
+                // Get Valid Response
                 Console.WriteLine("Please search for a book you're interested in.");
                 query = Console.ReadLine();
 
                 if (query == "")
                 {
                     Console.WriteLine("A valid search must contain at least one character. Please try again.");
-                    //TODO Unit test on other potentially invalid searches
                 }
 
             } while (query.Length <= 0);
 
             // Search
             WebResponse response = requests.InvokeRequest(query);
-            Book[] parsedResponse = requests.HandleResponse(response);
+            List<Book> parsedResponse = requests.HandleResponse(response);
             return parsedResponse;
         }
 
@@ -104,27 +100,31 @@ namespace ConsoleBooks
             var c = choice.Trim();
             if (c == "q" || c == "Q")
             {
-                // Return - User Quit
-                Console.WriteLine("You have decided not to edit anything, instead choosing to [Q]uit.");
+                Console.WriteLine("Quitting / Leaving the Library!");
                 return -1;
+            }
+            else if (c == "r" || c == "R")
+            {
+                Console.WriteLine("Returning to the main menu!");
+                return -2;
             }
             else if (int.TryParse(c, out int n))
             {
                 // Add Number
-                if (permittedResponse.Contains(c))
-                {
+                if (permittedResponse.Contains(c)) {
                     Console.WriteLine("{0} exists as valid input!", c); /// TODO remove
                     return int.Parse(c);
                 }
-                else
-                {
-                    Console.WriteLine("{0} is an invalid integer.",c); /// TODO Optimize User experience?
+                else {
+                    Console.Write("{0} is an invalid integer. Please pick a number within the specified range! [", c);
+                    permittedResponse.ForEach(i => Console.Write(i + " "));
+                    Console.WriteLine("");
                     return 0;
                 }
             } else
             {
                 // Return - User Error
-                Console.WriteLine("Invalid character: {0}. Please re-submit with valid input.",c);
+                Console.WriteLine("Invalid character: {0}. Please re-submit with valid input.", c);
                 return 0;
             }
         }
@@ -134,7 +134,6 @@ namespace ConsoleBooks
             string[] permittedAnswers = { "s", "search", "v", "view", "q", "quit" };
             string choice = "";
 
-            // Loop Menu until valid workflow
             do
             {
                 Console.WriteLine(
@@ -150,32 +149,33 @@ namespace ConsoleBooks
 
                 if (choice == "s" || choice == "search")
                 {
-                    Book[] bookQuery = SearchLibrary();
+                    List<Book> bookQuery = SearchLibrary();
 
-                    // Print Books with a Number
-                    int index = 0;
-                    foreach (Book book in bookQuery)
-                    {
-                        book.PrintBook(index+1);
-                        index++;
+                    int index = 1;
+                    foreach (Book book in bookQuery) { 
+                        book.PrintBookWithIndex(index); ++index;
                     }
 
-                    // Ask if any books are interesting
                     String confirm = InputYesOrNo("Would you like to add any books to your reading List?\r\n" +
                         "Answer [Y]es, or [N]o.", new string[] { "yes", "y", "no", "n" });
 
                     if (expressionsForYes.Contains(confirm.ToLower()))
                     {
-                        // Ask which books to add to "Reading List"
-                        int bookNumber = InputIntegerList("Please enter the number of the book you would like to add (1-5), or type 'r' to return to the main menu.",
+                        int bookNumber = InputIntegerList("Please enter the number of the book you would like to add (1-5), type 'r' to return to the main menu, or 'q' to leave the library.",
                             new List<String> { "1", "2", "3", "4", "5" });
 
-                        // Output what user added to reading list
-                        Console.WriteLine("Book being added to reading list:"); 
-                        bookQuery[bookNumber-1].PrintBook(bookNumber);
-                        readingList.Add(bookQuery[bookNumber-1]);
+                        if (bookNumber == -1) {
+                            this.Quit();
+                        }
+                        else if (bookNumber == -2) {
+                            continue; // Return to menu
+                        }
+
+                        Console.WriteLine("Book being added to reading list: "); 
+                        bookQuery[bookNumber - 1].PrintBookWithIndex(bookNumber);
+                        readingList.AddBook(bookQuery[bookNumber - 1]);
                     }
-                    else //no "ELSE IF" needed; InputYesOrNo catches any other responses 
+                    else
                     {
                         Console.WriteLine("No book was selected to add to the reading list.");
                     }
@@ -189,7 +189,7 @@ namespace ConsoleBooks
                         "|                    |\r\n" +
                         "|    READING LIST    |\r\n" +
                         "|____________________|\r\n");
-                    readingList.ForEach(book => book.PrintBook());
+                    readingList.Print();
                 }
                 else if (choice == "q" || choice == "quit")
                 {
@@ -211,9 +211,5 @@ namespace ConsoleBooks
             Environment.Exit(0);
         }
 
-        private void View()
-        {
-
-        }
     }
 }
