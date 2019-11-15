@@ -13,7 +13,6 @@ namespace ConsoleBooks
 {
     public class ReadingList_Tests
     {
-        static void Main() {}
 
         [Theory(DisplayName = "\r\n\r\nBook.CS Constructor/DB Validation\r\n")]
         [InlineData("The Power of Habit", new String[]{"Charles Duhigg"}, "Random House")]
