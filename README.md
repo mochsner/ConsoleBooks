@@ -8,6 +8,7 @@ __Console Books, A CLI-based Reading List__
 * Install .NET Core 2.1+ [here](https://dotnet.microsoft.com/download)
 * Clone this repository: `git clone https://github.com/mochsner/ConsoleBooks`
 * Navigate into the ConsoleBooks directory on an administrative shell (i.e. bash or powershell) ` cd ./ConsoleBooks`
+* Build the project `dotnet build`
 * Run the .exe generation command `dotnet publish -c Debug -r win10-x64`
 * Create the Database
 ```powershell
