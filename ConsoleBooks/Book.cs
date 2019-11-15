@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace ConsoleBooks
 {
-    class Book
+    public class Book
     {
         public String title;
         public String[] author;
