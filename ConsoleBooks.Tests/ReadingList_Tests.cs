@@ -64,12 +64,5 @@ namespace ConsoleBooks
             // Cleanup DB
             expected.RemoveBook(d.Expected);
         }
-
-
-        // [Fact(DisplayName = "Ignored Test - Library.cs", Skip = "")]
-        // public void ThisIsIgnored()
-        // {
-        //     //TODO: Fix this test
-        // }
     }
 }
