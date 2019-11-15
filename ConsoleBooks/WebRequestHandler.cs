@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace ConsoleBooks
 {
-    class WebRequestHandler
+    public class WebRequestHandler
     {
         public WebResponse InvokeRequest(String query)
         {

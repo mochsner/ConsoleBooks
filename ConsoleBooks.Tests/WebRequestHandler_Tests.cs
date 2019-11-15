@@ -16,17 +16,45 @@ namespace ConsoleBooks
 {
     public class WebRequestHandler_Tests
     {
+        [Theory(DisplayName = "WebRequestHandler.cs - Handle Valid Searches")]
+        [InlineData("The Power of Habit")]
+        public void WebRequestHandler_Valid_Theory(String search)
+        {
+          WebRequestHandler requests = new WebRequestHandler();
+          WebResponse response = requests.InvokeRequest(search);
+          Assert.NotNull(response);
+          List<Book> parsedResponse = requests.HandleResponse(response);
+          Assert.NotNull(parsedResponse);
+        }
 
         [Theory(DisplayName = "WebRequestHandler.cs - Handle Different Searches")]
-        [InlineData("The Power of Habit")]
         [InlineData("klajsdofkjopqiwkejalskmclkamsd")]
-        [InlineData("")]
-        [InlineData("^")]
-        public void WebRequestHandler_Theory(String search)
+        // [InlineData("^")]
+        public void WebRequestHandler_Null_Theory(String search)
         {
-            WebResponse response = requests.InvokeRequest(query);
-            List<Book> parsedResponse = requests.HandleResponse(response);
-            return parsedResponse;
+          WebRequestHandler requests = new WebRequestHandler();
+          WebResponse response = requests.InvokeRequest(search);
+          Assert.Null(response);
+          List<Book> parsedResponse = requests.HandleResponse(response);
+          Assert.NotNull(parsedResponse);
+        }
+
+        [Theory(DisplayName = "WebRequestHandler.cs - Handle Different Searches")]
+        [InlineData("")]
+        public void WebRequestHandler_BadRequest_Theory(String search)
+        {
+          WebRequestHandler requests = new WebRequestHandler();
+
+          try{
+            WebResponse response = requests.InvokeRequest(search);
+          } catch (WebException e)
+          {
+            Assert.True(true);
+            return;
+          }
+
+          Assert.True(false);
+          return;
         }
     }
 }
