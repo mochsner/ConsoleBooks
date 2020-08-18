@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq;
 
 using Xunit;
+using Xunit.Abstractions;
 
 using ConsoleBooks;
 
@@ -12,6 +13,7 @@ namespace ConsoleBooks
 {
     public class ReadingList_Tests
     {
+        private readonly ITestOutputHelper output; 
 
         [Theory(DisplayName = "\r\n\r\nBook.CS Constructor/DB Validation\r\n")]
         [InlineData("The Power of Habit", new String[]{"Charles Duhigg"}, "Random House")]
