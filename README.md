@@ -10,12 +10,24 @@ __Console Books, A CLI-based Reading List__
 * Navigate into the ConsoleBooks directory on an administrative shell (i.e. bash or powershell) ` cd ./ConsoleBooks`
 * Run the .exe generation command `dotnet publish -c Debug -r win10-x64`
 * Create the Database
-```powershell
+```bash
 dotnet tool install --global dotnet-ef
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
+## Cleanup / Rebuild for DB Updates`
+```bash
+# Clean the database migration
+# See Docs for more info on migrations: https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli
+dotnet ef migrations list
+dotnet ef migrations remove
+```
+
+## Compile an .exe using the runtime
+TODO
+
+## Run without SDK or Runtime
 * Navigate further down to find the ConsoleTest.exe, running it:\
 ```cd .\ConsoleBooks\bin\Debug\netcoreappX.Y\win-10-x64```
 
