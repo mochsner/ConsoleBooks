@@ -4,7 +4,7 @@ __Console Books, A CLI-based Reading List__
 - __[Google Books API Reference](https://developers.google.com/books/docs/v1/reference)__ - extensive online selection of books
 
 ---
-## Instructions
+## Linux Run Instructions
 * Install .NET Core 2.1+ [here](https://dotnet.microsoft.com/download)
 * Clone this repository: `git clone https://github.com/mochsner/ConsoleBooks`
 * Navigate into the ConsoleBooks directory on an administrative shell (i.e. bash or powershell) ` cd ./ConsoleBooks`
